@@ -27,7 +27,7 @@ express()
         'temp': Math.round(weather.currently.temperature),
         'icon': weather.currently.icon,
         'summary': weather.currently.summary,
-        'time': moment(weather.currently.time,'x').format('HH:MM')
+        'time': moment(weather.currently.time,'x').format('LT')
       }
       res.send(data)
 
