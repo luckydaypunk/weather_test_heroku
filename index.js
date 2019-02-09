@@ -16,11 +16,12 @@ express()
       ip = req.connection.remoteAddress;
     }
     try {
-      let loc = await getLoc(ip)
-      
+      let loc = await getLoc(ip), lat = loc.latitude, lon = loc.longitutde
+      console.log(lat,lon)
       res.send(JSON.stringify(loc))
     } catch(err) {
       console.log(err);
+      res.send('Sorry, it seems that something has gone wrong...')
     }
     
   })
