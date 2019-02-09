@@ -17,7 +17,7 @@ express()
     }
     try {
       let loc = await getLoc(ip), lat = loc.latitude, lon = loc.longitutde
-      console.log(lat,lon)
+      console.log('lat:'+lat,'lon:'+lon)
       let weather = await getWeather(lat,lon)
       res.send(weather)
 
