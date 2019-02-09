@@ -21,7 +21,14 @@ express()
       let lon = loc.longitude
       console.log(loc)
       let weather = await getWeather(lat,lon)
-      res.send(weather)
+      let data = {
+        'loc':loc.region_name,
+        'temp': Match.Round(weather.currently.temperature),
+        'icon': weather.currently.icon,
+        'summary': weather.currently.summary,
+        'time': weather.currently.time
+      }
+      res.send(data)
 
     } catch(err) {
       console.log(err);
@@ -29,17 +36,7 @@ express()
     }
     
   })
-  .get('/times', (req, res) => res.send(showTimes()))
   .listen(PORT, () => console.log(`Listening on ${PORT}`))
-
-let showTimes = () => {
-  let result = ''
-  const times = process.env.TIMES || 5
-  for (i = 0; i < times; i++) {
-    result += i + ' '
-  }
-  return result;
-}
 
 function getLoc(ip) {
   let options = {
