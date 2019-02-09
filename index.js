@@ -19,7 +19,7 @@ express()
       let loc = await getLoc(ip)
       let lat = loc.latitude
       let lon = loc.longitude
-      console.log('lat:'+lat,'lon:'+lon)
+      console.log(loc)
       let weather = await getWeather(lat,lon)
       res.send(weather)
 
@@ -58,7 +58,7 @@ function getLoc(ip) {
 }
 function getWeather(lat,lon) {
   let options = {
-      url: 'https://api.darksky.net/forecast/'+process.env.DARKSKY_API_KEY+'/'+lat+','+lon
+      url: 'https://api.darksky.net/forecast/'+process.env.DARKSKY_API_KEY+'/'+lat+','+lon+'?exclude=hourly,daily,flags&units=si'
   };
   return new Promise(function(resolve, reject) {
       request.get(options, function(err, res, body) {
