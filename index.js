@@ -18,7 +18,9 @@ express()
     try {
       let loc = await getLoc(ip), lat = loc.latitude, lon = loc.longitutde
       console.log(lat,lon)
-      res.send(JSON.stringify(loc))
+      let weather = await getWeather(lat,lon)
+      res.send(weather)
+
     } catch(err) {
       console.log(err);
       res.send('Sorry, it seems that something has gone wrong...')
@@ -42,6 +44,20 @@ function getLoc(ip) {
       url: 'http://api.ipstack.com/'+ip+'?access_key=' + process.env.IPSTACK_API_KEY
   };
   console.log(ip)
+  return new Promise(function(resolve, reject) {
+      request.get(options, function(err, res, body) {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(JSON.parse(body));
+          }
+      })
+  })
+}
+function getWeather(lat,lon) {
+  let options = {
+      url: 'https://api.darksky.net/forecast/'+process.env.DARKSKY_API_KEY+'/'+lat+','+lon
+  };
   return new Promise(function(resolve, reject) {
       request.get(options, function(err, res, body) {
           if (err) {
