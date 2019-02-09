@@ -23,7 +23,7 @@ express()
       let weather = await getWeather(lat,lon)
       let data = {
         'loc':loc.region_name,
-        'temp': Match.Round(weather.currently.temperature),
+        'temp': Math.round(weather.currently.temperature),
         'icon': weather.currently.icon,
         'summary': weather.currently.summary,
         'time': weather.currently.time
