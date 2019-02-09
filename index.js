@@ -8,15 +8,21 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', async (req, res) => {
-    const ip = req.headers['x-forwarded-for']
+    let ip = req.headers['x-forwarded-for']
     if (ip){
       var list = ip.split(",");
       ip = list[list.length-1];
     } else {
       ip = req.connection.remoteAddress;
     }
-    let loc = await getLoc(ip)
-    res.end(loc)
+    try {
+      let loc = await getLoc(ip)
+      
+      res.send(JSON.stringify(loc))
+    } catch(err) {
+      console.log(err);
+    }
+    
   })
   .get('/times', (req, res) => res.send(showTimes()))
   .listen(PORT, () => console.log(`Listening on ${PORT}`))
@@ -31,9 +37,10 @@ let showTimes = () => {
 }
 
 function getLoc(ip) {
-  var options = {
+  let options = {
       url: 'http://api.ipstack.com/'+ip+'?access_key=' + process.env.IPSTACK_API_KEY
   };
+  console.log(ip)
   return new Promise(function(resolve, reject) {
       request.get(options, function(err, res, body) {
           if (err) {
