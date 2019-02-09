@@ -8,7 +8,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', async (req, res) => {
-    const ip = req.headers['x-forwarded-for'].split(',')[0];
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     let loc = await getLoc(ip)
     res.end(loc)
   })
