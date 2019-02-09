@@ -5,9 +5,6 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 
 express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
   .get('/', async (req, res) => {
     let ip = req.headers['x-forwarded-for']
     if (ip){
@@ -26,8 +23,7 @@ express()
         'loc':loc.region_name,
         'temp': Math.round(weather.currently.temperature),
         'icon': weather.currently.icon,
-        'summary': weather.currently.summary,
-        'time': moment(weather.currently.time,'x').format('LT')
+        'summary': weather.currently.summary
       }
       res.send(data)
 
