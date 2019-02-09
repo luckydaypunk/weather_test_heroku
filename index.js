@@ -16,7 +16,9 @@ express()
       ip = req.connection.remoteAddress;
     }
     try {
-      let loc = await getLoc(ip), lat = loc.latitude, lon = loc.longitutde
+      let loc = await getLoc(ip)
+      let lat = loc.latitude
+      let lon = loc.longitude
       console.log('lat:'+lat,'lon:'+lon)
       let weather = await getWeather(lat,lon)
       res.send(weather)
