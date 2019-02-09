@@ -1,5 +1,6 @@
 const express = require('express')
 const request = require("request")
+const moment = require('moment')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
@@ -26,7 +27,7 @@ express()
         'temp': Math.round(weather.currently.temperature),
         'icon': weather.currently.icon,
         'summary': weather.currently.summary,
-        'time': weather.currently.time
+        'time': moment(weather.currently.time,'LT')
       }
       res.send(data)
 
